@@ -44,11 +44,14 @@ public class VerifierSecurityProxy implements VerifierApi {
 
     }
 
+    //Authorization header is respect format: "API_KEY <<token>>"
+    //TODO verify format is correct
     private String getTokenFromRequest(HttpServletRequest request) {
-        return null;
+        return request.getHeader("Authorization")
+                .replace("API_KEY ", "");
     }
 
     private Boolean isAuthenticatedRequest(String token) {
-        return null;
+        return tokenService.validateToken(token);
     }
 }
