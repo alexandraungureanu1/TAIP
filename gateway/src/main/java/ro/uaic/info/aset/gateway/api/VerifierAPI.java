@@ -1,9 +1,10 @@
 package ro.uaic.info.aset.gateway.api;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
-public interface VerifierApi {
+import javax.servlet.http.HttpServletRequest;
+
+public interface VerifierAPI {
 
     ResponseEntity<Boolean> verifyAge(HttpServletRequest request);
     ResponseEntity<Boolean> verifyIsStudent(HttpServletRequest request);
