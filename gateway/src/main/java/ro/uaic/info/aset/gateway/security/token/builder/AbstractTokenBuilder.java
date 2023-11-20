@@ -4,6 +4,7 @@ import lombok.Setter;
 import ro.uaic.info.aset.gateway.security.token.Token;
 
 import java.time.temporal.TemporalAmount;
+import java.util.Set;
 
 public abstract class AbstractTokenBuilder {
 
@@ -18,4 +19,6 @@ public abstract class AbstractTokenBuilder {
     public abstract AbstractTokenBuilder clientId(String clientId);
     public abstract AbstractTokenBuilder expiryDate(TemporalAmount expireIn);
     public abstract AbstractTokenBuilder sign(String seed);
+    public abstract AbstractTokenBuilder roles(Set<String> roles);
+    public abstract AbstractTokenBuilder role(String role);
 }

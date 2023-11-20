@@ -1,52 +1,34 @@
 package ro.uaic.info.aset.gateway.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ro.uaic.info.aset.gateway.api.VerifierAPI;
 import ro.uaic.info.aset.gateway.client.VerifierClient;
-import ro.uaic.info.aset.gateway.dto.AgeVerifyDTO;
+import ro.uaic.info.aset.gateway.dto.NationalityVerifyDTO;
 import ro.uaic.info.aset.gateway.dto.StudentVerifyDTO;
-import ro.uaic.info.aset.gateway.exceptions.DTOParsingException;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Component("realVerifierController")
+@RequestMapping("/verify")
+@RestController
 public class VerifierController implements VerifierAPI {
 
     private final VerifierClient verifierClient;
-    private final ObjectMapper objectMapper;
 
+
+    @PostMapping("/nationality")
     @Override
-    public ResponseEntity<Boolean> verifyAge(HttpServletRequest request) {
-        try {
-            AgeVerifyDTO ageVerifyDTO = retrieveDTO(request, AgeVerifyDTO.class);
-            return ResponseEntity.ok(true);//verifierClient.verifyAge(ageVerifyDTO));
-        } catch (DTOParsingException dtoParsingException) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Boolean> verifyNationality(@RequestBody NationalityVerifyDTO nationalityVerifyDTO) {
+        return ResponseEntity.ok(verifierClient.verifyNationality(nationalityVerifyDTO));
     }
 
-    @Override
-    public ResponseEntity<Boolean> verifyIsStudent(HttpServletRequest request) {
-        try {
-            StudentVerifyDTO studentVerifyDTO = retrieveDTO(request, StudentVerifyDTO.class);
-            return ResponseEntity.ok(true);//verifierClient.verifyIsStudent(studentVerifyDTO));
-        } catch (DTOParsingException dtoParsingException) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
-    private<T> T retrieveDTO(HttpServletRequest request, Class<T> dtoClass) throws DTOParsingException{
-        try {
-            String requestData = request.getReader().lines().collect(Collectors.joining());
-            return objectMapper.readValue(requestData, dtoClass);
-        } catch (IOException e) {
-            throw new DTOParsingException(e);
-        }
+    @PostMapping("/student")
+    @Override
+    public ResponseEntity<Boolean> verifyIsStudent(@RequestBody StudentVerifyDTO studentVerifyDTO) {
+        return ResponseEntity.ok(verifierClient.verifyIsStudent(studentVerifyDTO));
     }
 }

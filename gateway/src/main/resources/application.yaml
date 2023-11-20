@@ -1,3 +1,3 @@
 token:
   expiry-amount: "P1D"
-  clients: "spotify,youtube"
+  clients: "spotify,youtube,admin"
