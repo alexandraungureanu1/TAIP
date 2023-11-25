@@ -8,7 +8,7 @@ __pycache__/*
 /out-tsc
 /bazel-out
 
-/node_modules
+**/node_modules
 npm-debug.log
 yarn-error.log
 
