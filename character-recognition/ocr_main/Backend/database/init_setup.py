@@ -5,13 +5,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
-from tesserocr._tesserocr import PyTessBaseAPI
+import tesserocr
 
 from tools.api_macros import *
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-TESSERACT_PATH = 'C:/Program Files/Tesseract-OCR/tessdata/'
-TESSERACT_API = PyTessBaseAPI(path=TESSERACT_PATH, lang='ron')
+#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+TESSERACT_PATH = '/usr/share/tesseract-ocr/5/tessdata'
+TESSERACT_API = tesserocr.PyTessBaseAPI(path=TESSERACT_PATH, lang='ron')
 builtins.TESSERACT_API = TESSERACT_API
 
 builtins.app = Flask(__name__)
