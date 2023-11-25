@@ -27,6 +27,10 @@ public class DataController {
         this.dataCache = dataCache;
     }
 
+    //request:
+    /*
+        {"id":""}
+     */
     @PostMapping("/requestData")
     public ResponseEntity<String> getData(@RequestParam DataSourceType source, @RequestBody DataIdentifier dataIdentifier) {
         DataProviderFactory dataProviderFactory;

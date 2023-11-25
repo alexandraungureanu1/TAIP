@@ -6,12 +6,12 @@ import ro.uaic.info.aset.gateway.dto.NationalityVerifyDTO;
 import ro.uaic.info.aset.gateway.dto.StudentVerifyDTO;
 
 //TODO wrap this calls with AOP for logging?? and maybe some other random stuff just for the sake of it
-@FeignClient(name = "verifierClient", url = "localhost:8080")
+@FeignClient(name = "verifierClient", url = "localhost:8082")
 public interface VerifierClient {
 
-    @PostMapping("/verify/nationality")
+    @PostMapping("/api/verifier/nationality")
     Boolean verifyNationality(NationalityVerifyDTO nationalityVerifyDTO);
 
-    @PostMapping("/verify/student")
+    @PostMapping("/api/verifier/student")
     Boolean verifyIsStudent(StudentVerifyDTO studentVerifyDTO);
 }

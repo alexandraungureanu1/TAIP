@@ -1,3 +1,5 @@
+server:
+  port: 8081
 token:
   expiry-amount: "P1D"
   clients: "spotify,youtube,admin"

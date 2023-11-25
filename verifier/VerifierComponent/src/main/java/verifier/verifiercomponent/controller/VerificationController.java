@@ -15,6 +15,8 @@ import verifier.verifiercomponent.dto.ocr.NationalityRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
 import verifier.verifiercomponent.service.VerificationService;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("api/verifier")
 @AllArgsConstructor
@@ -42,10 +44,11 @@ public class VerificationController {
     public Mono<ResponseEntity<Boolean>> verifyStudent(@RequestBody StudentVerifyDTO studentVerifyDTO) {
         return verificationService.verifyStudent(studentVerifyDTO)
                 .map(responseEntity -> {
-                    if (responseEntity == null || responseEntity.getBody() == null) {
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+                    System.out.println(responseEntity);
+                    if (Objects.isNull(responseEntity)) {
+                        return ResponseEntity.ok(false);
                     }
-                    return responseEntity;
+                    return ResponseEntity.ok(true);
                 })
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)) // Handle empty Mono
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)));

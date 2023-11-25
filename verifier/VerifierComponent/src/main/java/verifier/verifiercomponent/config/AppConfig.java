@@ -6,8 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class AppConfig {
-    private final String dataProviderURL = "http://localhost:8080/api/verifier";
-    private final String characterRecognitionURL = "http://localhost:8080/api/verifier";
+    private final String dataProviderURL = "http://localhost:8083/";
+    private final String characterRecognitionURL = "http://localhost:8084/api/verifier"; //TODO
     @Bean
     public WebClient dataProviderAPI(WebClient.Builder builder) {
         return builder.baseUrl(dataProviderURL).build();

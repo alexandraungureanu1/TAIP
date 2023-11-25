@@ -28,12 +28,13 @@ public class VerificationService {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public Mono<ResponseEntity<Boolean>> verifyStudent(StudentVerifyDTO studentVerifyDTO) {
+    public Mono<ResponseEntity<String>> verifyStudent(StudentVerifyDTO studentVerifyDTO) {
         StudentRequestDTO studentRequest = new StudentRequestDTO(studentVerifyDTO.getUniversityName(),
                 studentVerifyDTO.getFacultyName(), studentVerifyDTO.getPersonalIdentification());
-        return dataProviderAPIService.performRequest(studentRequest)
+        Mono<ResponseEntity<String>> responseEntityMono = dataProviderAPIService.performRequest(studentRequest)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return responseEntityMono;
 
     }
 }
