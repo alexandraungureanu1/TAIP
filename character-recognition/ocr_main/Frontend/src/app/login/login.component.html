@@ -1,0 +1,61 @@
+<html>
+  <body>
+    <div class="form">
+      <div class="form-toggle"></div>
+      <div class="form-panel one">
+        <div class="form-header">
+          <h1>Account Login</h1>
+          <div class="form-group">
+            <a
+              class="form-recovery"
+              style="font-style: italic; font-weight: bold"
+              href="/register"
+              >No account? Register <u>HERE</u>
+            </a>
+          </div>
+        </div>
+
+        <div class="form-content">
+          <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                formControlName="username"
+                [maxLength]="appMacros.MAX_INPUT_TEXT_LENGTH"
+                id="username"
+                type="text"
+                name="username"
+                required="required"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                formControlName="password"
+                id="password"
+                type="password"
+                name="password"
+                required="required"
+              />
+            </div>
+
+            <div class="form-group">
+              <button class="button" type="submit">Log In</button>
+            </div>
+          </form>
+
+          <div
+            (click)="hideErrorBox()"
+            class="error"
+            [ngStyle]="{
+              display: showError ? 'block' : 'none',
+              cursor: 'pointer'
+            }"
+          >
+            {{ error }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

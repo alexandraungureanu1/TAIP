@@ -1,0 +1,12 @@
+PyJWT>=2.6.0
+Flask>=2.1.0
+opencv-python>=4.5.4.58
+numpy>=1.19.5
+requests>=2.27.1
+Pillow>=8.4.0
+SQLAlchemy>=1.4.32
+pytesseract>=0.3.8
+tesserocr>=2.4.0
+sewar>=0.4.4
+waitress>=2.0.0
+Paste>=3.5.0

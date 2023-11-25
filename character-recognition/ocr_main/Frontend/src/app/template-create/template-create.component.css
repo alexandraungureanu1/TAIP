@@ -1,0 +1,324 @@
+body {
+  background-color: #5590ef !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-family: "Lato", sans-serif !important;
+  font-size: 14px !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+
+  margin: 0 !important;
+  padding-top: 40px !important;
+  position: relative !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.sidenav {
+  height: 100% !important;
+  width: 200px !important;
+  position: fixed !important;
+  z-index: 1 !important;
+  top: 0 !important;
+  left: 0 !important;
+  background-color: #111 !important;
+  overflow-x: hidden !important;
+  padding-top: 20px !important;
+}
+
+.sidenav a,
+.dropdown-btn {
+  padding: 6px 8px 6px 16px !important;
+  text-decoration: none !important;
+  font-size: 20px !important;
+  color: #b5b5b5 !important;
+  display: block;
+  border: none !important;
+  background: none !important;
+  width: 100% !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  outline: none !important;
+}
+
+.sidenav a:hover,
+.dropdown-btn:hover {
+  color: #f1f1f1 !important;
+}
+
+.main {
+  margin-left: 200px !important;
+  font-size: 20px !important;
+  padding: 0px 10px !important;
+}
+
+.active {
+  background-color: #0f359b !important;
+  color: white !important;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626 !important;
+  padding-left: 8px !important;
+}
+
+.fa-caret-down {
+  float: right !important;
+  padding-right: 8px !important;
+}
+
+/* /////////////////////////////////// */
+.styled-checkbox {
+  opacity: 0;
+}
+.styled-checkbox + label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  color: white;
+  font-size: medium;
+}
+.styled-checkbox + label:before {
+  content: "";
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background: white;
+}
+.styled-checkbox:hover + label:before {
+  background: #003591;
+}
+.styled-checkbox:focus + label:before {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
+.styled-checkbox:checked + label:before {
+  background: #003591;
+}
+.styled-checkbox:disabled + label {
+  color: #b8b8b8;
+  cursor: auto;
+}
+.styled-checkbox:disabled + label:before {
+  box-shadow: none;
+  background: #ddd;
+}
+.styled-checkbox:checked + label:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 12px;
+  background: white;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white,
+    4px -6px 0 white, 4px -8px 0 white;
+  transform: rotate(45deg);
+}
+
+.unstyled {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin: 20px 0;
+}
+
+.centered {
+  width: 300px;
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  color: #4571ec;
+}
+.button-17 {
+  align-items: center;
+  appearance: none;
+  background-color: #fff;
+  border-radius: 24px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+    rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  justify-content: center;
+  letter-spacing: 0.25px;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 2px 24px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform, opacity;
+  z-index: 0;
+}
+
+.button-17:hover {
+  background: #003591;
+  color: #ffffff;
+}
+
+.ngx-drop:hover {
+  background-color: #0f359b;
+  color: #ffffff;
+  transition: 0.5s;
+}
+
+.img-box {
+  width: 600px;
+  max-width: 600px;
+  height: 550px;
+  max-height: 550px;
+  border-color: black !important;
+  border-width: thin;
+  border-style: solid;
+}
+
+.center,
+.ngxImageZoomContainer {
+  display: block !important;
+  margin-right: 100% !important;
+  margin-top: 50px !important;
+}
+
+.ngxImageZoomThumbnail {
+  width: 580px;
+  max-width: 580px;
+  border-color: black !important;
+  border-width: 0 !important;
+  border-style: solid !important;
+}
+
+/* #zoom-image-box {
+  width: 580px;
+  max-width: 580px;
+  border-color: black !important;
+  border-width: thin !important;
+  border-style: solid !important;
+} */
+
+#draw {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+#draw #boxes {
+  fill: blue;
+  stroke: white;
+  stroke-width: 1;
+  fill-opacity: 0.5;
+  stroke-opacity: 0.9;
+}
+#draw #marquee {
+  fill: white;
+  stroke: red;
+  stroke-width: 1;
+  stroke-dasharray: 5, 5;
+  stroke-opacity: 0.9;
+  fill-opacity: 0.2;
+}
+#draw #marquee.hide {
+  display: none;
+}
+
+.float-child {
+  display: inline-block;
+  width: 17%;
+  margin-right: 5%;
+}
+
+.fields-box {
+  width: 650px;
+  max-width: 650px;
+  height: 550px;
+  max-height: 550px;
+  border-color: black !important;
+  border-width: thin;
+  border-style: solid;
+  margin-left: 2%;
+  overflow-y: auto;
+}
+
+/* ///////////////////// */
+
+.container {
+  max-width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border: solid black 1px;
+}
+
+.table-header {
+  display: flex;
+  width: 100%;
+  background: black;
+  padding: 18px 0;
+}
+
+.table-row {
+  display: flex;
+  width: 100%;
+  padding: 18px 0;
+}
+.table-row {
+  background: white;
+  border: solid thin;
+}
+
+.table-row:hover {
+  cursor: pointer;
+  -webkit-box-shadow: inset 0px 0px 0px 2px #000000;
+  -moz-box-shadow: inset 0px 0px 0px 2px #000000;
+  box-shadow: inset 0px 0px 0px 2px #000000;
+}
+
+.table-row-selected {
+  background-color: #d5d5d5;
+}
+
+.table-data,
+.header__item {
+  flex: 1 1 20%;
+  text-align: center;
+}
+
+.header__item {
+  text-transform: uppercase;
+}
+
+.filter__link {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding-left: 24px;
+  padding-right: 24px;
+}
