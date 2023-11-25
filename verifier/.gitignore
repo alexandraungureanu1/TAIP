@@ -8,3 +8,6 @@ projectName.iml
 /build
 /local.properties
 target/
+mvnw
+mvnw.cmd
+.mvn/
