@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="sidenav">
+      <button (click)="dropdownButton($event)" id="opt-1" class="dropdown-btn">
+        Account
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-1-1" class="dropdown-container">
+        <a id="opt-1-2" href="/account">Edit</a>
+        <a id="opt-1-3" (click)="logout()">Log Out</a>
+      </div>
+      <br />
+      <a id="opt-2" href="/ocr">Document OCR</a>
+      <br />
+
+      <button
+        (click)="dropdownButton($event)"
+        id="opt-3"
+        class="dropdown-btn"
+        [ngStyle]="{
+          display: userRole == 'admin' ? 'block' : 'none'
+        }"
+      >
+        Admin Panel
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-3-1" class="dropdown-container">
+        <a id="opt-3-2" href="/users">Users</a>
+        <a id="opt-3-3" href="/templates">Templates</a>
+        <a id="opt-3-4" href="/templates/new">New Template</a>
+      </div>
+      <br />
+    </div>
+
+    <div class="main">
+      <div class="bgimg">
+        <div class="middle">
+          <h1>WELCOME</h1>
+          <hr />
+          <p>
+            Document OCR is a web service that can extract text information from
+            any personal document.
+          </p>
+
+          <div class="container">
+            <div>
+              <img src="/assets/security.png" />
+              <p>SECURITY</p>
+              <hr />
+
+              Your documents are protected from any external threats and
+              dangers.
+            </div>
+
+            <div>
+              <img src="/assets/privacy.png" />
+              <p>PRIVACY</p>
+
+              <hr />
+              Neither your documents or the text extracted from them are stored
+              anywhere.
+            </div>
+            <div>
+              <img src="/assets/flexibility.png" />
+              <p>FLEXIBILITY</p>
+              <hr />
+              The system is able to analyze and extract text for any type of
+              document you provide.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

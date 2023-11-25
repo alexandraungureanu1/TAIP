@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="sidenav">
+      <button (click)="dropdownButton($event)" id="opt-1" class="dropdown-btn">
+        Account
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-1-1" class="dropdown-container">
+        <a id="opt-1-2" href="/account">Edit</a>
+        <a id="opt-1-3" (click)="logout()">Log Out</a>
+      </div>
+      <br />
+
+      <br />
+      <a id="opt-2" href="/ocr">Document OCR</a>
+      <br />
+      <br />
+
+      <button
+        (click)="dropdownButton($event)"
+        id="opt-3"
+        class="dropdown-btn"
+        [ngStyle]="{
+          display: userRole == 'admin' ? 'block' : 'none'
+        }"
+      >
+        Admin Panel
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-3-1" class="dropdown-container">
+        <a id="opt-3-2" href="/users">Users</a>
+        <a id="opt-3-3" href="/templates">Templates</a>
+        <a id="opt-3-4" href="/templates/new">New Template</a>
+      </div>
+      <br />
+    </div>
+
+    <!--  -->
+
+    <div style="margin-left: 15%; margin-top: -4%">
+      <div style="display: flex">
+        <div class="img-box" style="overflow-y: auto; position: relative">
+          <!-- <img
+          id="zoom-image-box"
+          (click)="test($event)"
+          [src]="files[0]"
+          *ngIf="files[0]"
+        /> -->
+          <canvas
+            id="zoom-image-canvas"
+            style="
+              position: absolute;
+              border: 1px solid none;
+              z-index: 10;
+              margin-top: 50px;
+              pointer-events: none;
+            "
+            [ngStyle]="{
+              width: getHtmlPreviewSize().width + 'px',
+              height: getHtmlPreviewSize().height + 'px'
+            }"
+          ></canvas>
+          <lib-ngx-image-zoom
+            (mousedown)="sectionMouseDown($event)"
+            (mouseup)="sectionMouseUp($event)"
+            (mousemove)="sectionMouseMove($event)"
+            id="zoom-image-box"
+            [thumbImage]="previewFile + ''"
+            [fullImage]="files[0] + ''"
+            [magnification]="1"
+            [enableScrollZoom]="true"
+            [enableLens]="true"
+            [lensWidth]="200"
+            [maxZoomRatio]="10"
+            ondragstart="return false;"
+          ></lib-ngx-image-zoom>
+        </div>
+        <div class="fields-box">
+          <diV class="table-container">
+            <div class="container">
+              <div
+                class="table"
+                [ngStyle]="{
+                  display: listFields.length > 0 ? 'block' : 'none'
+                }"
+              >
+                <div class="table-content">
+                  <div
+                    [ngClass]="
+                      selectedField == item
+                        ? 'table-row table-row-selected'
+                        : 'table-row'
+                    "
+                    *ngFor="let item of listFields; let itemIndex = index"
+                    (click)="markSelected(item)"
+                  >
+                    <hr />
+
+                    <div class="table-data">
+                      <input
+                        style="margin-left: 5%"
+                        type="text"
+                        [value]="item.name"
+                        [(ngModel)]="item.name"
+                        placeholder="Insert field name"
+                        title="Insert field name"
+                      />
+                    </div>
+
+                    <input
+                      type="checkbox"
+                      id="checkbox-sensitive"
+                      [value]="item.sensitive"
+                      [(ngModel)]="item.sensitive"
+                      style="
+                        margin-bottom: 4%;
+                        margin-left: 5%;
+                        margin-right: 1%;
+                      "
+                    />
+                    <label for="checkbox-sensitive" style="margin-right: 3%">
+                      Sensitive
+                    </label>
+
+                    <select
+                      [(ngModel)]="item.origin_set"
+                      (change)="selectChange(item, $event)"
+                      style="width: 10%; margin-bottom: 4%; margin-right: 6%"
+                      title="Set of origin"
+                    >
+                      <option [ngValue]="null" disabled>
+                        Select set of origin
+                      </option>
+                      <option *ngFor="let opt of CATEGORIES_INFO | keyvalue">
+                        {{ opt.key }}
+                      </option>
+                    </select>
+
+                    <select
+                      [(ngModel)]="item.category"
+                      style="width: 10%; margin-bottom: 4%; margin-right: 6%"
+                      title="Category of field"
+                    >
+                      <option [ngValue]="null" disabled>
+                        Select category of field
+                      </option>
+                      <option
+                        *ngFor="let opt of CATEGORIES_INFO[item.origin_set]"
+                      >
+                        {{ opt }}
+                      </option>
+                    </select>
+
+                    <div class="table-data">
+                      <button
+                        (click)="deleteField(itemIndex)"
+                        class="button-17"
+                        [ngStyle]="{
+                          display: listFields.length == 1 ? 'none' : 'block'
+                        }"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </diV>
+        </div>
+      </div>
+      <div style="float: right; margin-top: 1%; margin-right: 15%">
+        <input
+          style="margin-left: -2%; width: 60%; margin-right: 5%"
+          type="text"
+          [value]="templateName"
+          [(ngModel)]="templateName"
+          placeholder="Insert template name"
+          title="Insert template name"
+        />
+        <button
+          (click)="addNewField()"
+          class="button-17"
+          style="margin-bottom: 1%"
+        >
+          Add New Field
+        </button>
+        <button
+          (click)="uploadTemplate()"
+          [disabled]="isLoading"
+          class="button-17"
+          style="float: right; margin-right: -35%"
+        >
+          Upload Template
+        </button>
+      </div>
+      <div>
+        <div class="float-child">
+          <ngx-dropzone
+            class="ngx-drop"
+            [multiple]="false"
+            accept="image/jpeg,image/jpg,image/png"
+            (change)="onSelect($event)"
+            style="height: 10%; margin-top: 3%; margin-bottom: 3%"
+          >
+            <ngx-dropzone-label style="font-family: 'Lato', sans-serif">
+              Drag & Drop to Upload File or Browse File
+            </ngx-dropzone-label>
+          </ngx-dropzone>
+        </div>
+
+        <div class="float-child unstyled">
+          <input
+            class="styled-checkbox"
+            id="styled-checkbox-1"
+            type="checkbox"
+            value="value1"
+            (click)="enableZoom()"
+          />
+          <label
+            for="styled-checkbox-1"
+            style="margin-left: -5%; margin-top: 5%"
+            >Image Zoom</label
+          >
+
+          <img
+            src="/assets/loading.gif"
+            width="100px"
+            style="float: right; margin-right: -40%"
+            [ngStyle]="{
+              display: isLoading ? 'block' : 'none'
+            }"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

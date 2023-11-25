@@ -1,0 +1,160 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="sidenav">
+      <button (click)="dropdownButton($event)" id="opt-1" class="dropdown-btn">
+        Account
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-1-1" class="dropdown-container">
+        <a id="opt-1-2" href="/account">Edit</a>
+        <a id="opt-1-3" (click)="logout()">Log Out</a>
+      </div>
+      <br />
+
+      <br />
+      <a id="opt-2" href="/ocr">Document OCR</a>
+      <br />
+      <br />
+
+      <button
+        (click)="dropdownButton($event)"
+        id="opt-3"
+        class="dropdown-btn"
+        [ngStyle]="{
+          display: userRole == 'admin' ? 'block' : 'none'
+        }"
+      >
+        Admin Panel
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="opt-3-1" class="dropdown-container">
+        <a id="opt-3-2" href="/users">Users</a>
+        <a id="opt-3-3" href="/templates">Templates</a>
+        <a id="opt-3-4" href="/templates/new">New Template</a>
+      </div>
+      <br />
+    </div>
+
+    <!--  -->
+
+    <div class="buttons-container">
+      <div
+        [formGroup]="checkoutForm"
+        class="search-container"
+        style="margin-left: 7%"
+      >
+        <input
+          formControlName="filter"
+          type="text"
+          id="myInput"
+          placeholder="Search for templates"
+          title="Type in a name"
+        />
+        <button
+          (click)="filterSearch()"
+          type="button"
+          id="submit"
+          name="submit"
+          class="myButton button-17"
+          role="button"
+        >
+          Search
+        </button>
+
+        <div class="pagination" style="float: right; margin-right: 7%">
+          <input
+            type="number"
+            id="goToPage"
+            name="goToPage"
+            formControlName="goToPage"
+            min="1"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            placeholder="Enter the page number"
+            style="
+              margin-right: 1%;
+              font-family: 'Lato', sans-serif;
+              margin-top: 10px;
+              margin-bottom: 20px;
+            "
+          />
+          <button
+            (click)="changePage(null)"
+            class="button-17"
+            style="margin-right: 5%"
+          >
+            Go To Page
+          </button>
+          <button
+            (click)="changePage(false)"
+            class="button-17"
+            [disabled]="this.page == 0 ? 'true' : null"
+          >
+            Previous
+          </button>
+          <div style="text-align: center">Page {{ page + 1 }}</div>
+          <button
+            (click)="changePage(true)"
+            class="button-17"
+            [disabled]="this.blockNext ? 'true' : null"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+
+    <diV class="table-container">
+      <div class="container">
+        <div
+          class="table"
+          [ngStyle]="{ display: templates.length > 0 ? 'block' : 'none' }"
+        >
+          <div class="table-header">
+            <div class="header__item">
+              <p id="preview" class="filter__link">Template Preview</p>
+            </div>
+            <div class="header__item">
+              <p id="name" class="filter__link">Template Name</p>
+            </div>
+          </div>
+          <div class="table-content">
+            <div
+              [ngClass]="
+                item.id.length > 0 ? 'table-row table-row-1' : 'table-row'
+              "
+              *ngFor="let item of templates"
+              (click)="openTemplate(item.id)"
+            >
+              <hr />
+              <div class="table-data">
+                <img
+                  [attr.src]="item.preview | secure | async"
+                  height="100"
+                  onerror="this.src='/assets/error.png'"
+                  [ngStyle]="{
+                    display: item.preview.length > 0 ? null : 'none'
+                  }"
+                />
+              </div>
+              <div class="table-data">{{ item.name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </diV>
+  </body>
+</html>

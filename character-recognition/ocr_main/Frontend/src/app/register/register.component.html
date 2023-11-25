@@ -1,0 +1,72 @@
+<html>
+  <body>
+    <div class="form">
+      <div class="form-toggle"></div>
+      <div class="form-panel one">
+        <div class="form-header">
+          <h1>Account Register</h1>
+          <div class="form-group">
+            <a
+              class="form-recovery"
+              style="font-style: italic; font-weight: bold"
+              href="/login"
+              >Already have an account? Log in <u>HERE</u>
+            </a>
+          </div>
+        </div>
+
+        <div class="form-content">
+          <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                formControlName="username"
+                [maxLength]="appMacros.MAX_INPUT_TEXT_LENGTH"
+                id="username"
+                type="text"
+                name="username"
+                required="required"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                formControlName="password"
+                id="password"
+                type="password"
+                name="password"
+                required="required"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">EMAIL</label>
+              <input
+                formControlName="email"
+                [maxLength]="appMacros.MAX_INPUT_TEXT_LENGTH"
+                id="email"
+                type="text"
+                name="email"
+                required="required"
+              />
+            </div>
+            <div class="form-group">
+              <button class="button" type="submit">CREATE ACCOUNT</button>
+            </div>
+          </form>
+
+          <div
+            (click)="hideErrorBox()"
+            class="error"
+            [ngStyle]="{
+              display: showError ? 'block' : 'none',
+              cursor: 'pointer'
+            }"
+          >
+            {{ error }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
