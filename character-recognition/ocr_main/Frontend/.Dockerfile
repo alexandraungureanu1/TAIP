@@ -7,11 +7,16 @@ FROM node:latest as build
 WORKDIR /usr/local/app
 
 # Add the source code to app
-COPY ./Frontend/ /usr/local/app/
+COPY . /usr/local/app/
 
+WORKDIR /usr/local/app/ 
 # Generate the build of the application
+RUN npm install
 RUN npm install -g @angular/cli
+#RUN npm install @angular-devkit/build-angular --force
+
+RUN sed -i '/const swal: SweetAlert;/d' ./node_modules/sweetalert/typings/sweetalert.d.ts
 
 EXPOSE 4200
 
-ENTRYPOINT ["ng","serve"]
+ENTRYPOINT ["ng","serve","--host", "0.0.0.0"]

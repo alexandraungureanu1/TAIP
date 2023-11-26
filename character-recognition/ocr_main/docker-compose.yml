@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   postgres:
+    container_name: postgres
     image: postgres
     ports:
       - 5432:5432
@@ -12,14 +13,15 @@ services:
       - POSTGRES_DB=ocr
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 2s
-      timeout: 2s
-      retries: 5
+      interval: 3s
+      timeout: 3s
+      retries: 10
 
   ocr-backend:
+    container_name: ocr-backend
     build:
-      context: .
-      dockerfile: ./Backend/.Dockerfile
+      context: ./Backend/
+      dockerfile: .Dockerfile
     ports:
       - 5053:5053
     links:
@@ -27,10 +29,11 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-  # ocr-frontend:
-  #   build:
-  #     context: .
-  #     dockerfile: ./Frontend/.Dockerfile
-  #   ports:
-  #     - 4200:4200
 
+  ocr-frontend:
+    container_name: ocr-frontend
+    build:
+      context: ./Frontend/
+      dockerfile: .Dockerfile
+    ports:
+      - 4200:4200

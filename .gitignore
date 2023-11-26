@@ -81,8 +81,7 @@ __pycache__/*
 **/*.iml
 **/*.ipr
 **/*.iws
-**/.idea
-.idea
+**/.idea/
 **/out
 **/test-output
 **/atlassian-ide-plugin.xml
