@@ -37,7 +37,7 @@ __pycache__/*
 **/.DS_Store
 **/Thumbs.db
 
-**/postres-volume
+**/*volume
 
 # Miscellaneous
 **/*.java.hsp
@@ -82,6 +82,7 @@ __pycache__/*
 **/*.ipr
 **/*.iws
 **/.idea
+.idea
 **/out
 **/test-output
 **/atlassian-ide-plugin.xml
