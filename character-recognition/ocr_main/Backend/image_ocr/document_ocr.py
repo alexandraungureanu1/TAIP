@@ -102,7 +102,10 @@ def get_document_ocr(document_match):
                 # cv2.waitKey()
 
         # print("##############################")
-        return document_ocr
+
+        fields_data = document_ocr.get("fields", {})  # Get the 'fields' sub-dictionary
+        simplified_fields = {field_name: field_data["text"] for field_name, field_data in fields_data.items()}
+        return simplified_fields
     except Exception as e:
         x = str(e)
         return {}

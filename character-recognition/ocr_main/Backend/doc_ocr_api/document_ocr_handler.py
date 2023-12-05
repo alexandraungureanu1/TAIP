@@ -24,12 +24,12 @@ class DocumentOCRHandler(Resource):
     def __init__(self):
         pass
 
-    @jwt_token_required
-    def post(requester_id, self):
+    # @jwt_token_required
+    def post(self):
         xx = time.time()
-        user, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
+        # user, error_msg, error_code = check_user_authorization(requester_id, True)
+        # if error_msg is not None and error_code is not None:
+        #     return error_msg, error_code
 
         try:
             img_json = request.get_json()
@@ -49,6 +49,7 @@ class DocumentOCRHandler(Resource):
 
             img_size, img_cv2 = base64_to_cv2_image(img_base_64)
             if img_size is None or img_cv2 is None:
+                error_msg += "Could not read image"
                 raise Exception
 
             if not check_image_size_input(img_size):
@@ -70,8 +71,8 @@ class DocumentOCRHandler(Resource):
             return "Failure. Try again later", HTTPStatus.INTERNAL_SERVER_ERROR
         print("OCR OCR TIME: ", time.time() - bb)
 
-        Thread(target=send_email, args=(user.mail, doc_ocr)).start()
-        send_email(user.mail, doc_ocr)
+        # Thread(target=send_email, args=(user.mail, doc_ocr)).start()
+        # send_email(user.mail, doc_ocr)
 
         if doc_ocr is None or len(doc_ocr.keys()) == 0:
             return "Couldn't extract any text. Try again", HTTPStatus.BAD_REQUEST

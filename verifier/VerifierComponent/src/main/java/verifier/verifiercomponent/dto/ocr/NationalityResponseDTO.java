@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NationalityResponseDTO {
-    private String firstName;
-    private String lastName;
-    private String countryCode;
-    private String personalIdentification;
+    private String firstname;
+    private String lastname;
+    private String countrycode;
 }

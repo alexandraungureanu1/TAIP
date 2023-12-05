@@ -21,8 +21,8 @@ public class VerificationService {
 
     public Mono<ResponseEntity<NationalityResponseDTO>> verifyNationality(NationalityVerifyDTO nationalityVerifyDTO) {
         NationalityRequestDTO nationalityRequest = new NationalityRequestDTO();
-        nationalityRequest.setDocumentIdentification(nationalityVerifyDTO.getDocumentIdentification());
-        nationalityRequest.setEncodedDocument(nationalityVerifyDTO.getEncodedDocument());
+//        nationalityRequest.setDocumentIdentification(nationalityVerifyDTO.getDocumentIdentification());
+        nationalityRequest.setImage(nationalityVerifyDTO.getEncodedDocument());
         return characterRecognitionAPIService.performRequest(nationalityRequest)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());

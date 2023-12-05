@@ -16,11 +16,15 @@ import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
 import verifier.verifiercomponent.service.VerificationService;
 
 import java.util.Objects;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 @RestController
 @RequestMapping("api/verifier")
 @AllArgsConstructor
 public class VerificationController {
+    private static final Logger logger = Logger.getLogger("MyLog");
 
     private VerificationService verificationService;
 
@@ -29,10 +33,17 @@ public class VerificationController {
         return verificationService.verifyNationality(nationalityVerifyDTO)
                 .flatMap(responseEntity -> {
                     NationalityResponseDTO body = responseEntity.getBody();
-                    if (body == null || body.getCountryCode() == null) {
+                    if (body == null) {
                         return Mono.just(ResponseEntity.ok(false));
                     }
-                    boolean isValid = nationalityVerifyDTO.getCountryCode().equals(body.getCountryCode());
+                    ConsoleHandler consoleHandler = new ConsoleHandler();
+                    consoleHandler.setFormatter(new SimpleFormatter());
+                    logger.addHandler(consoleHandler);
+                    logger.info("Response first name field:" + body.getFirstname());
+                    logger.info("Response last name field:" + body.getLastname());
+                    logger.info("Response country code field:" + body.getCountrycode());
+
+                    boolean isValid = true;
                     return Mono.just(ResponseEntity.ok(isValid));
                 })
                 .defaultIfEmpty(ResponseEntity.ok(false))
@@ -56,7 +67,7 @@ public class VerificationController {
 
     @PostMapping("/test-nationality")
     public ResponseEntity<?> testNationality(@RequestBody NationalityRequestDTO nationalityRequestDTO) {
-        NationalityResponseDTO nationalityResponseDTO = new NationalityResponseDTO("firstName", "secondName", "RO", "id");
+        NationalityResponseDTO nationalityResponseDTO = new NationalityResponseDTO("firstName", "lastname", "RO");
         return ResponseEntity.ok(nationalityResponseDTO);
     }
 

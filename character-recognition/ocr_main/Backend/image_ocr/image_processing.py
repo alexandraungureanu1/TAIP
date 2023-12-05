@@ -175,5 +175,4 @@ def get_document_match(image):
             "image_aligned": max_match["image_aligned"]
         }
     except Exception as e:
-        print(str(e))
-        return None
+        raise e

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class NationalityRequestDTO {
-    private String documentIdentification;
-    private String encodedDocument;
+//    private String documentIdentification;
+    private String image;
 }
 
