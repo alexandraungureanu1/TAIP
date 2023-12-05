@@ -37,4 +37,11 @@ public class VerificationService {
         return responseEntityMono;
 
     }
+
+    // TODO TO BE DONE with something like strategy (to be done better basically)
+    public Boolean compareUserInfoWithDocumentNationality(NationalityVerifyDTO userInfo, NationalityResponseDTO documentInfo) {
+        return userInfo.getFirstName().equalsIgnoreCase(documentInfo.getFirstname()) &&
+                userInfo.getLastName().equalsIgnoreCase(documentInfo.getLastname()) &&
+                documentInfo.getCountrycode().startsWith(userInfo.getCountryCode()); //TODO find a good way to overcome the struggles of the ocr
+    }
 }

@@ -30,6 +30,7 @@ public class VerificationController {
 
     @PostMapping("/nationality")
     public Mono<ResponseEntity<Boolean>> verifyNationality(@RequestBody NationalityVerifyDTO nationalityVerifyDTO) {
+        logger.info("Request received for nationality verification");
         return verificationService.verifyNationality(nationalityVerifyDTO)
                 .flatMap(responseEntity -> {
                     NationalityResponseDTO body = responseEntity.getBody();
@@ -43,7 +44,7 @@ public class VerificationController {
                     logger.info("Response last name field:" + body.getLastname());
                     logger.info("Response country code field:" + body.getCountrycode());
 
-                    boolean isValid = true;
+                    boolean isValid = verificationService.compareUserInfoWithDocumentNationality(nationalityVerifyDTO, body);
                     return Mono.just(ResponseEntity.ok(isValid));
                 })
                 .defaultIfEmpty(ResponseEntity.ok(false))

@@ -60,6 +60,7 @@ public class TokenVerifierFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else {
+                log.info("Invalid token!");
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
         } catch (RuntimeException exception) {
