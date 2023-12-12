@@ -1,0 +1,5 @@
+INSERT INTO public.fields (id, page_id, name, sensitive, category, p1, p2, p3, p4) VALUES ('77fe0ab4-b221-4a35-bf54-e05cc7ce9886', '8bb4246e-18b9-4274-8d65-13434f3d701d', 'nationalitate', false, 'Name', 580, 2, 766, 59);
+INSERT INTO public.fields (id, page_id, name, sensitive, category, p1, p2, p3, p4) VALUES ('6c508f01-d94b-4ef0-9bb8-beb00ad77680', '8bb4246e-18b9-4274-8d65-13434f3d701d', 'cnp', false, 'Personal ID', 277, 96, 459, 127);
+INSERT INTO public.fields (id, page_id, name, sensitive, category, p1, p2, p3, p4) VALUES ('f32f72c7-14e5-4e08-a787-ac8526309a7b', '8bb4246e-18b9-4274-8d65-13434f3d701d', 'cetatenie', false, 'Nationality', 242, 213, 458, 252);
+INSERT INTO public.fields (id, page_id, name, sensitive, category, p1, p2, p3, p4) VALUES ('7e6ed554-c9d6-4ba4-86dc-105bc034191b', '8bb4246e-18b9-4274-8d65-13434f3d701d', 'lastName', false, 'Name', 241, 132, 461, 177);
+INSERT INTO public.fields (id, page_id, name, sensitive, category, p1, p2, p3, p4) VALUES ('77b314ef-482e-4594-ba9b-90167bd04867', '8bb4246e-18b9-4274-8d65-13434f3d701d', 'firstName', false, 'Name', 239, 172, 503, 215);

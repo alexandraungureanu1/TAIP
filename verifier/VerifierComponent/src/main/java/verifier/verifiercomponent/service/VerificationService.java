@@ -21,7 +21,6 @@ public class VerificationService {
 
     public Mono<ResponseEntity<NationalityResponseDTO>> verifyNationality(NationalityVerifyDTO nationalityVerifyDTO) {
         NationalityRequestDTO nationalityRequest = new NationalityRequestDTO();
-//        nationalityRequest.setDocumentIdentification(nationalityVerifyDTO.getDocumentIdentification());
         nationalityRequest.setImage(nationalityVerifyDTO.getEncodedDocument());
         return characterRecognitionAPIService.performRequest(nationalityRequest)
                 .map(ResponseEntity::ok)
@@ -36,12 +35,5 @@ public class VerificationService {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         return responseEntityMono;
 
-    }
-
-    // TODO TO BE DONE with something like strategy (to be done better basically)
-    public Boolean compareUserInfoWithDocumentNationality(NationalityVerifyDTO userInfo, NationalityResponseDTO documentInfo) {
-        return userInfo.getFirstName().equalsIgnoreCase(documentInfo.getFirstname()) &&
-                userInfo.getLastName().equalsIgnoreCase(documentInfo.getLastname()) &&
-                documentInfo.getCountrycode().startsWith(userInfo.getCountryCode()); //TODO find a good way to overcome the struggles of the ocr
     }
 }

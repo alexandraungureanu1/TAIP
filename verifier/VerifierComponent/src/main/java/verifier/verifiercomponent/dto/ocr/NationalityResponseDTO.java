@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class NationalityResponseDTO {
     private String firstname;
     private String lastname;
-    private String countrycode;
+    private String nationality;
+    private String id;
+    private String country;
 }
