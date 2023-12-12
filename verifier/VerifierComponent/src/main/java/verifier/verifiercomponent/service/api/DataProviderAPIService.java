@@ -18,14 +18,14 @@ public class DataProviderAPIService {
         this.webClient = webClient;
     }
 
-    public Mono<String> performRequest(StudentRequestDTO studentRequestDTO) {
+    public Mono<String> performStudentRequest(StudentRequestDTO studentRequestDTO) {
         Mono<String> stringMono = webClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .path("/data/requestData")
-                        .queryParam("source", "REST_API")
+                        .queryParam("source", "student_source")
                         .build())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("{\"id\":\"33\"}") //TODO figure out body
+                .bodyValue("{\"id\":\"" + studentRequestDTO.getPersonalIdentification() + "\"}")
                 .retrieve()
                 .bodyToMono(String.class) //TODO figure this out as well
                 //.map(Object::toString)

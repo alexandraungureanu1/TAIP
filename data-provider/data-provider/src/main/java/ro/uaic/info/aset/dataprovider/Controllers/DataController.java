@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.aset.dataprovider.Beans.DataIdentifier;
 import ro.uaic.info.aset.dataprovider.Enums.DataSourceType;
-import ro.uaic.info.aset.dataprovider.Factories.DatabaseDataProviderFactory;
 import ro.uaic.info.aset.dataprovider.Factories.RestApiDataProviderFactory;
 import ro.uaic.info.aset.dataprovider.Interfaces.DataProvider;
 import ro.uaic.info.aset.dataprovider.Interfaces.DataProviderFactory;
 import ro.uaic.info.aset.dataprovider.Services.ConfigurationService;
 import ro.uaic.info.aset.dataprovider.Services.DataCache;
+import ro.uaic.info.aset.dataprovider.Services.ProviderFactoryService;
 
 import java.util.Map;
 
@@ -21,48 +21,35 @@ public class DataController {
     private final ConfigurationService configurationService;
     private final DataCache dataCache;
 
+    private final ProviderFactoryService providerFactoryService;
     @Autowired
-    public DataController(ConfigurationService configurationService, DataCache dataCache) {
+    public DataController(ConfigurationService configurationService, DataCache dataCache, ProviderFactoryService providerFactoryService) {
         this.configurationService = configurationService;
         this.dataCache = dataCache;
+        this.providerFactoryService = providerFactoryService;
     }
 
     //request:
     /*
         {"id":""}
      */
-    @PostMapping("/requestData")
-    public ResponseEntity<String> getData(@RequestParam DataSourceType source, @RequestBody DataIdentifier dataIdentifier) {
-        DataProviderFactory dataProviderFactory;
-        Map<String, String> config = configurationService.getConfigForSource(source);
+    @PostMapping("/student")
+    public ResponseEntity<String> studentEndpoint( @RequestBody DataIdentifier dataIdentifier) {
 
-        String cachedData = dataCache.getCachedData(getCacheKey(source, dataIdentifier));
-        if (cachedData != null) {
-            return ResponseEntity.ok(cachedData);
-        }
-        
-        switch (source) {
-            case REST_API:
-                dataProviderFactory = new RestApiDataProviderFactory();
-                break;
-            case DATABASE:
-                dataProviderFactory = new DatabaseDataProviderFactory();
-                break;
-            default:
-                // Handle unknown source or provide a default factory
-                dataProviderFactory = null;
-        }
+        DataSourceType source = DataSourceType.STUDENT_DB;
+        Map<String, String> config = configurationService.getConfigForStudent();
+        DataProvider dataProvider = providerFactoryService.createStudentProvider(config);
 
-        DataProvider dataProvider = dataProviderFactory.createDataProvider(config);
+        return getData(dataIdentifier , dataProvider);
+    }
 
-
+    public ResponseEntity<String> getData(DataIdentifier dataIdentifier, DataProvider dataProvider) {
         try {
             var genericData = dataProvider.fetchData(dataIdentifier);
 
             // Check if data is found
             if (genericData != null && genericData.hasData()) {
                 String json = genericData.toJson();
-                dataCache.cacheData(getCacheKey(source, dataIdentifier),json);
                 return ResponseEntity.ok(json);
             } else {
                 // Handle case where no data is found
