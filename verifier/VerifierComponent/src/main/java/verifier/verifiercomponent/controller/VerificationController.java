@@ -1,6 +1,9 @@
 package verifier.verifiercomponent.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,23 +11,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
-import verifier.verifiercomponent.dto.dataprovider.StudentRequestDTO;
+import verifier.verifiercomponent.comparison.ComparisonStrategy;
+import verifier.verifiercomponent.comparison.NationalityComparison;
+import verifier.verifiercomponent.comparison.StudentComparison;
 import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
-import verifier.verifiercomponent.dto.ocr.NationalityRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.dto.ocr.StudentResponseDTO;
+import verifier.verifiercomponent.mop.OCRServiceMonitoringAspect;
 import verifier.verifiercomponent.service.VerificationService;
 
 import java.util.Objects;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
+@Slf4j
 @RestController
 @RequestMapping("api/verifier")
 @AllArgsConstructor
 public class VerificationController {
-    private static final Logger logger = Logger.getLogger("MyLog");
+    private static final Logger logger = LogManager.getLogger(VerificationController.class);
 
     private VerificationService verificationService;
 
@@ -33,18 +37,21 @@ public class VerificationController {
         logger.info("Request received for nationality verification");
         return verificationService.verifyNationality(nationalityVerifyDTO)
                 .flatMap(responseEntity -> {
-                    NationalityResponseDTO body = responseEntity.getBody();
-                    if (body == null) {
+                    NationalityResponseDTO nationalityResponseDTO = responseEntity.getBody();
+                    if (nationalityResponseDTO == null) {
                         return Mono.just(ResponseEntity.ok(false));
                     }
-                    ConsoleHandler consoleHandler = new ConsoleHandler();
-                    consoleHandler.setFormatter(new SimpleFormatter());
-                    logger.addHandler(consoleHandler);
-                    logger.info("Response first name field:" + body.getFirstname());
-                    logger.info("Response last name field:" + body.getLastname());
-                    logger.info("Response country code field:" + body.getCountrycode());
+                    log.info("Response first name field:" + nationalityResponseDTO.getFirstname());
+                    log.info("Response last name field:" + nationalityResponseDTO.getLastname());
+                    log.info("Response country field:" + nationalityResponseDTO.getCountry());
+                    log.info("Response id field:" + nationalityResponseDTO.getId());
+                    log.info("Response nationality field:" + nationalityResponseDTO.getNationality());
 
-                    boolean isValid = verificationService.compareUserInfoWithDocumentNationality(nationalityVerifyDTO, body);
+                    ComparisonStrategy<NationalityVerifyDTO, NationalityResponseDTO> comparisonStrategy =
+                            new NationalityComparison();
+                    boolean isValid = comparisonStrategy.compare(nationalityVerifyDTO, nationalityResponseDTO);
+                    log.info("Is valid: " + isValid);
+
                     return Mono.just(ResponseEntity.ok(isValid));
                 })
                 .defaultIfEmpty(ResponseEntity.ok(false))
@@ -55,25 +62,19 @@ public class VerificationController {
     @PostMapping("/student")
     public Mono<ResponseEntity<Boolean>> verifyStudent(@RequestBody StudentVerifyDTO studentVerifyDTO) {
         return verificationService.verifyStudent(studentVerifyDTO)
-                .map(responseEntity -> {
-                    System.out.println(responseEntity);
-                    if (Objects.isNull(responseEntity)) {
-                        return ResponseEntity.ok(false);
+                .flatMap(responseEntity -> {
+                    StudentResponseDTO studentResponseDTO = responseEntity.getBody();
+                    if (studentResponseDTO == null) {
+                        return Mono.just(ResponseEntity.ok(false));
                     }
-                    return ResponseEntity.ok(true);
+
+                    ComparisonStrategy<StudentVerifyDTO, StudentResponseDTO> comparisonStrategy = new StudentComparison();
+                    boolean isValid = comparisonStrategy.compare(studentVerifyDTO, studentResponseDTO);
+                    log.info("Is valid: " + isValid);
+
+                    return Mono.just(ResponseEntity.ok(isValid));
                 })
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)) // Handle empty Mono
+                .defaultIfEmpty(ResponseEntity.ok(false))
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)));
-    }
-
-    @PostMapping("/test-nationality")
-    public ResponseEntity<?> testNationality(@RequestBody NationalityRequestDTO nationalityRequestDTO) {
-        NationalityResponseDTO nationalityResponseDTO = new NationalityResponseDTO("firstName", "lastname", "RO");
-        return ResponseEntity.ok(nationalityResponseDTO);
-    }
-
-    @PostMapping("/test-student")
-    public ResponseEntity<?> testStudent(@RequestBody StudentRequestDTO studentRequestDTO) {
-        return ResponseEntity.ok(true);
     }
 }

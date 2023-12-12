@@ -8,8 +8,9 @@ import reactor.core.publisher.Mono;
 import verifier.verifiercomponent.dto.dataprovider.StudentRequestDTO;
 import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
-import verifier.verifiercomponent.dto.ocr.NationalityRequestDTO;
+import verifier.verifiercomponent.dto.ocr.OcrRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.dto.ocr.StudentResponseDTO;
 import verifier.verifiercomponent.service.api.CharacterRecognitionAPIService;
 import verifier.verifiercomponent.service.api.DataProviderAPIService;
 
@@ -20,28 +21,34 @@ public class VerificationService {
     private final DataProviderAPIService dataProviderAPIService;
 
     public Mono<ResponseEntity<NationalityResponseDTO>> verifyNationality(NationalityVerifyDTO nationalityVerifyDTO) {
-        NationalityRequestDTO nationalityRequest = new NationalityRequestDTO();
-//        nationalityRequest.setDocumentIdentification(nationalityVerifyDTO.getDocumentIdentification());
-        nationalityRequest.setImage(nationalityVerifyDTO.getEncodedDocument());
-        return characterRecognitionAPIService.performRequest(nationalityRequest)
+        OcrRequestDTO ocrRequestDTO = new OcrRequestDTO();
+        ocrRequestDTO.setImage(nationalityVerifyDTO.getEncodedDocument());
+        return characterRecognitionAPIService.performRequest(ocrRequestDTO, NationalityResponseDTO.class)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public Mono<ResponseEntity<String>> verifyStudent(StudentVerifyDTO studentVerifyDTO) {
-        StudentRequestDTO studentRequest = new StudentRequestDTO(studentVerifyDTO.getUniversityName(),
-                studentVerifyDTO.getFacultyName(), studentVerifyDTO.getPersonalIdentification());
-        Mono<ResponseEntity<String>> responseEntityMono = dataProviderAPIService.performRequest(studentRequest)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-        return responseEntityMono;
+    public Mono<ResponseEntity<StudentResponseDTO>> verifyStudent(StudentVerifyDTO studentVerifyDTO) {
+//        OcrRequestDTO ocrRequestDTO = new OcrRequestDTO();
+//        ocrRequestDTO.setImage(studentVerifyDTO.getEncodedDocument());
+//        return characterRecognitionAPIService.performRequest(ocrRequestDTO, StudentResponseDTO.class)
+//                .map(ResponseEntity::ok)
+//                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
-    }
+        //TODO create template for studentUAIC then uncomment previous lines
+        //TODO add dataProvider call
+        return Mono.just(
+                ResponseEntity.ok(
+                        StudentResponseDTO.builder()
+                                .firstname("Johnny")
+                                .lastname("John")
+                                .documentIdentification("NUMAR_MATRICOL")
+                                .universityName("UAIC")
+                                .facultyName("Informatica")
+                                .personalIdentification("1234567891234")
+                                .build()
+                )
+        );
 
-    // TODO TO BE DONE with something like strategy (to be done better basically)
-    public Boolean compareUserInfoWithDocumentNationality(NationalityVerifyDTO userInfo, NationalityResponseDTO documentInfo) {
-        return userInfo.getFirstName().equalsIgnoreCase(documentInfo.getFirstname()) &&
-                userInfo.getLastName().equalsIgnoreCase(documentInfo.getLastname()) &&
-                documentInfo.getCountrycode().startsWith(userInfo.getCountryCode()); //TODO find a good way to overcome the struggles of the ocr
     }
 }

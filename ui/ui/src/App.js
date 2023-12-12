@@ -42,7 +42,7 @@ const MyForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'API_KEY eyJzaWduYXR1cmUiOiI5ZTBkNjQ2ZmM4ZjQ1MzM3ODRhMTY5MDBmZTRkNTA3ODI5ZWUzY2NiZjljNmI3YzlkNzc5M2MyNmFlMWNkZTViIiwiaXNzdWVEYXRlIjpbMjAyMywxMiw1XSwiZXhwaXJ5RGF0ZSI6WzIwMjMsMTIsNl0sImNsaWVudElkIjoic3BvdGlmeSIsImlzc3VlciI6Im1lIiwicm9sZXMiOlsiUk9MRV9CQVNJQyJdfQ=='
+          'Authorization': 'API_KEY eyJzaWduYXR1cmUiOiI5ZTBkNjQ2ZmM4ZjQ1MzM3ODRhMTY5MDBmZTRkNTA3ODI5ZWUzY2NiZjljNmI3YzlkNzc5M2MyNmFlMWNkZTViIiwiaXNzdWVEYXRlIjpbMjAyMywxMiw2XSwiZXhwaXJ5RGF0ZSI6WzIwMjMsMTIsN10sImNsaWVudElkIjoic3BvdGlmeSIsImlzc3VlciI6Im1lIiwicm9sZXMiOlsiUk9MRV9CQVNJQyJdfQ=='
         },
         body: JSON.stringify(formDataWithBase64),
       });

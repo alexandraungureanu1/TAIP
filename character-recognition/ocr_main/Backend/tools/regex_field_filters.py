@@ -51,7 +51,7 @@ def extract_last_name(text):
 
 
 def extract_cnp(text):
-    for match in re.findall(r'([1,2]\d{12})', clear_space(text)):
+    for match in re.findall(r'([1,2,5,6]\d{12})', clear_space(text)):
         month = int(match[3:5])
         if month < 1 or month > 12:
             continue
