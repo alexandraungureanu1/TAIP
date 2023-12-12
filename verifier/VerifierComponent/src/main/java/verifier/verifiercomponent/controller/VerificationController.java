@@ -2,6 +2,8 @@ package verifier.verifiercomponent.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,17 +16,17 @@ import verifier.verifiercomponent.comparison.NationalityComparison;
 import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.mop.OCRServiceMonitoringAspect;
 import verifier.verifiercomponent.service.VerificationService;
 
 import java.util.Objects;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController
 @RequestMapping("api/verifier")
 @AllArgsConstructor
 public class VerificationController {
-    private static final Logger logger = Logger.getLogger("VerificationController");
+    private static final Logger logger = LogManager.getLogger(VerificationController.class);
 
     private VerificationService verificationService;
 
