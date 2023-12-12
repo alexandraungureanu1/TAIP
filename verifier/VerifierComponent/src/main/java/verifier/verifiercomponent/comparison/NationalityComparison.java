@@ -9,9 +9,16 @@ public class NationalityComparison extends AbstractComparisonStrategy<Nationalit
     @Override
     public boolean compare(NationalityVerifyDTO obj1, NationalityResponseDTO obj2) {
         return super.isIdValid(obj1.getPersonalIdentification()) &&
-                super.compareId(obj1.getPersonalIdentification(), obj2.getId()) &&
-                super.compareName(obj1.getFirstName(), obj2.getFirstname()) &&
-                super.compareName(obj1.getLastName(), obj2.getLastname()) &&
-                super.compareNationality(obj1.getCountryCode(), obj2.getNationality());
+                super.compareStringsIgnoreCase(obj1.getPersonalIdentification(), obj2.getId()) &&
+                super.compareStringsIgnoreCase(obj1.getFirstName(), obj2.getFirstname()) &&
+                super.compareStringsIgnoreCase(obj1.getLastName(), obj2.getLastname()) &&
+                this.compareNationality(obj1.getCountryCode(), obj2.getNationality());
+    }
+
+    private boolean compareNationality(String nationality1, String nationality2) {
+        if (nationality1 == null || nationality2 == null) {
+            return false;
+        }
+        return nationality2.contains(nationality1);
     }
 }

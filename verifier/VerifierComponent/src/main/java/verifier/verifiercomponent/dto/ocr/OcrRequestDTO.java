@@ -3,8 +3,7 @@ package verifier.verifiercomponent.dto.ocr;
 import lombok.Data;
 
 @Data
-public class NationalityRequestDTO {
-//    private String documentIdentification;
+public class OcrRequestDTO {
     private String image;
 }
 

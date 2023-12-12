@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import verifier.verifiercomponent.comparison.ComparisonStrategy;
 import verifier.verifiercomponent.comparison.NationalityComparison;
+import verifier.verifiercomponent.comparison.StudentComparison;
 import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.dto.ocr.StudentResponseDTO;
 import verifier.verifiercomponent.mop.OCRServiceMonitoringAspect;
 import verifier.verifiercomponent.service.VerificationService;
 
@@ -60,14 +62,19 @@ public class VerificationController {
     @PostMapping("/student")
     public Mono<ResponseEntity<Boolean>> verifyStudent(@RequestBody StudentVerifyDTO studentVerifyDTO) {
         return verificationService.verifyStudent(studentVerifyDTO)
-                .map(responseEntity -> {
-                    System.out.println(responseEntity);
-                    if (Objects.isNull(responseEntity)) {
-                        return ResponseEntity.ok(false);
+                .flatMap(responseEntity -> {
+                    StudentResponseDTO studentResponseDTO = responseEntity.getBody();
+                    if (studentResponseDTO == null) {
+                        return Mono.just(ResponseEntity.ok(false));
                     }
-                    return ResponseEntity.ok(true);
+
+                    ComparisonStrategy<StudentVerifyDTO, StudentResponseDTO> comparisonStrategy = new StudentComparison();
+                    boolean isValid = comparisonStrategy.compare(studentVerifyDTO, studentResponseDTO);
+                    log.info("Is valid: " + isValid);
+
+                    return Mono.just(ResponseEntity.ok(isValid));
                 })
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)) // Handle empty Mono
+                .defaultIfEmpty(ResponseEntity.ok(false))
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)));
     }
 }

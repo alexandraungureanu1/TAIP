@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import verifier.verifiercomponent.dto.ocr.NationalityRequestDTO;
+import verifier.verifiercomponent.dto.ocr.OcrRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
 
 @RestController
@@ -16,12 +16,12 @@ public class CharacterRecognitionAPIService {
         this.webClient = webClient;
     }
 
-    public Mono<NationalityResponseDTO> performRequest(NationalityRequestDTO nationalityRequestDTO) {
+    public <T> Mono<T> performRequest(OcrRequestDTO ocrRequestDTO, Class<T> classObject) {
         return webClient.post()
                 .uri("/ocr")
-                .bodyValue(nationalityRequestDTO)
+                .bodyValue(ocrRequestDTO)
                 .retrieve()
-                .bodyToMono(NationalityResponseDTO.class)
+                .bodyToMono(classObject)
                 .onErrorResume(e -> {
                     return Mono.error(new RuntimeException("Custom message", e));
                 });

@@ -7,7 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import verifier.verifiercomponent.dto.ocr.NationalityRequestDTO;
+import verifier.verifiercomponent.dto.ocr.OcrRequestDTO;
 
 @Slf4j
 @Aspect
@@ -17,11 +17,11 @@ public class OCRServiceMonitoringAspect {
 
     @Pointcut("execution(* verifier.verifiercomponent.service.api.CharacterRecognitionAPIService.performRequest(..)) " +
             "&& args(request)")
-    public void executeRequest(NationalityRequestDTO request) {
+    public void executeRequest(OcrRequestDTO request) {
     }
 
     @Around("executeRequest(request)")
-    public Object aroundOcrServiceCall(ProceedingJoinPoint joinPoint, NationalityRequestDTO request) throws Throwable {
+    public Object aroundOcrServiceCall(ProceedingJoinPoint joinPoint, OcrRequestDTO request) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
 
