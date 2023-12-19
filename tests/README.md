@@ -19,22 +19,21 @@
    - Looped 50 times --> 100 requests
    - Verify nationality request
    - Request should always return true (user's data is correct)  
-<br>
+
 2. Performance test invalid data
    - 2 simultaneous users in a span of 10 seconds
    - Looped 50 times --> 100 requests
    - Verify nationality request
    - Request should always return false (user's data is not correct)  
-<br>
+
 3. Performance test random data
    - 2 simultaneous users in a span of 10 seconds
    - Looped 50 times --> 100 requests
    - Verify nationality request
    - Request result is randomized   
-<br>
+
 4. Stress test
    - 5 simultaneous users in a span of 5 seconds
    - Looped 10 times --> 100 requests
    - Verify nationality request
    - Request should always return true (user's data is correct)  
-<br>
