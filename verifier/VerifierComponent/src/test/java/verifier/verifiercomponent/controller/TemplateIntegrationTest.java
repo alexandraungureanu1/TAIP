@@ -2,47 +2,42 @@ package verifier.verifiercomponent.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 import verifier.verifiercomponent.dto.ocr.OcrTemplateResponseDTO;
 import verifier.verifiercomponent.service.TemplateService;
+import verifier.verifiercomponent.service.api.CharacterRecognitionAPIService;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-@WebFluxTest(TemplateController.class)
-class TemplateControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import({TemplateService.class})
+class TemplateIntegrationTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
     @MockBean
-    private TemplateService templateService;
+    private CharacterRecognitionAPIService characterRecognitionAPIService;
 
     @BeforeEach
     void setUp() {
         OcrTemplateResponseDTO mockResponse =
                 new OcrTemplateResponseDTO(new OcrTemplateResponseDTO.Template("3993", "489494"));
-        when(templateService.createTemplate(anyString(), anyString()))
-                .thenReturn(Mono.just(new ResponseEntity<>(mockResponse, HttpStatus.OK)));
+        when(characterRecognitionAPIService.createTemplate(any(), any()))
+                .thenReturn(Mono.just(mockResponse));
     }
-
 
     @Test
     void testCreateTemplate() {
         webTestClient.post().uri("/api/templates/id")
-                .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class)
@@ -53,6 +48,4 @@ class TemplateControllerTest {
                             "Response body should contain 'Template created successfully'");
                 });
     }
-
 }
-
