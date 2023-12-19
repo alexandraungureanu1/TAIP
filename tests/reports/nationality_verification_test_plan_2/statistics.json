@@ -1,0 +1,50 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 101,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 325.8415841584158,
+    "medianResTime" : 311.0,
+    "minResTime" : 27.0,
+    "maxResTime" : 403.0,
+    "pct1ResTime" : 377.0,
+    "pct2ResTime" : 381.9,
+    "pct3ResTime" : 402.74000000000007,
+    "throughput" : 3.8179481363876917,
+    "receivedKBytesPerSec" : 1.6791381974370605,
+    "sentKBytesPerSec" : 562.8892369773947
+  },
+  "Token creation" : {
+    "transaction" : "Token creation",
+    "sampleCount" : 1,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 27.0,
+    "medianResTime" : 27.0,
+    "minResTime" : 27.0,
+    "maxResTime" : 27.0,
+    "pct1ResTime" : 27.0,
+    "pct2ResTime" : 27.0,
+    "pct3ResTime" : 27.0,
+    "throughput" : 37.03703703703704,
+    "receivedKBytesPerSec" : 24.811921296296298,
+    "sentKBytesPerSec" : 5.3530092592592595
+  },
+  "Nationality Verification" : {
+    "transaction" : "Nationality Verification",
+    "sampleCount" : 100,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 328.8300000000001,
+    "medianResTime" : 311.0,
+    "minResTime" : 282.0,
+    "maxResTime" : 403.0,
+    "pct1ResTime" : 377.0,
+    "pct2ResTime" : 381.95,
+    "pct3ResTime" : 402.86999999999995,
+    "throughput" : 3.7868746923164314,
+    "receivedKBytesPerSec" : 1.6567576778884388,
+    "sentKBytesPerSec" : 563.8856115329269
+  }
+}
