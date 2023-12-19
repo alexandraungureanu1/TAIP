@@ -18,10 +18,7 @@ import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
 import verifier.verifiercomponent.dto.ocr.StudentResponseDTO;
-import verifier.verifiercomponent.mop.OCRServiceMonitoringAspect;
 import verifier.verifiercomponent.service.VerificationService;
-
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -77,4 +74,5 @@ public class VerificationController {
                 .defaultIfEmpty(ResponseEntity.ok(false))
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false)));
     }
+
 }

@@ -70,6 +70,20 @@ export class TemplatesComponent {
     }
   }
 
+  makeIdTemplate() {
+    this.http.post('http://localhost:8082/api/templates/id', null)
+      .subscribe(
+          (response: any) => {
+          console.log('Response received:', response);
+          // Handle the response as needed
+        },
+          (error: any) => {
+          console.error('Error:', error);
+          // Handle the error as needed
+        }
+      );
+  }
+
   dropdownButton(event: any) {
     var target = event.target || event.srcElement || event.currentTarget;
     var element = document.getElementById(target.attributes.id.nodeValue);

@@ -1,0 +1,73 @@
+{
+  "id": "",
+  "name": "nationality_template2",
+  "pages": [
+    {
+      "id": "",
+      "name": "nationality_template",
+      "image": "",
+      "fields": [
+        {
+          "id": "",
+          "name": "firstname",
+          "page_id": "",
+          "sensitive": false,
+          "origin_set": "All existing fields",
+          "category": "Name",
+          "p1": 239,
+          "p2": 172,
+          "p3": 503,
+          "p4": 215
+        },
+        {
+          "id": "",
+          "name": "lastname",
+          "page_id": "",
+          "sensitive": false,
+          "origin_set": "All existing fields",
+          "category": "Name",
+          "p1": 241,
+          "p2": 132,
+          "p3": 461,
+          "p4": 177
+        },
+        {
+          "id": "",
+          "name": "nationality",
+          "page_id": "",
+          "sensitive": false,
+          "origin_set": "All existing fields",
+          "category": "Nationality",
+          "p1": 242,
+          "p2": 213,
+          "p3": 458,
+          "p4": 252
+        },
+        {
+          "id": "",
+          "name": "id",
+          "page_id": "",
+          "sensitive": false,
+          "origin_set": "All existing fields",
+          "category": "Personal ID",
+          "p1": 268,
+          "p2": 93,
+          "p3": 466,
+          "p4": 128
+        },
+        {
+          "id": "",
+          "name": "country",
+          "page_id": "",
+          "sensitive": false,
+          "origin_set": "All existing fields",
+          "category": "Name",
+          "p1": 580,
+          "p2": 2,
+          "p3": 766,
+          "p4": 59
+        }
+      ]
+    }
+  ]
+}

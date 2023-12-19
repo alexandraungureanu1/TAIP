@@ -1,20 +1,25 @@
 package verifier.verifiercomponent.service;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import verifier.verifiercomponent.dto.dataprovider.StudentRequestDTO;
+import reactor.core.scheduler.Schedulers;
 import verifier.verifiercomponent.dto.gateway.NationalityVerifyDTO;
 import verifier.verifiercomponent.dto.gateway.StudentVerifyDTO;
 import verifier.verifiercomponent.dto.ocr.OcrRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.dto.ocr.OcrTemplateDTO;
 import verifier.verifiercomponent.dto.ocr.StudentResponseDTO;
+import verifier.verifiercomponent.helpers.ImageToBase64Converter;
 import verifier.verifiercomponent.service.api.CharacterRecognitionAPIService;
 import verifier.verifiercomponent.service.api.DataProviderAPIService;
 
-@Service
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+@org.springframework.stereotype.Service
 @AllArgsConstructor
 public class VerificationService {
     private final CharacterRecognitionAPIService characterRecognitionAPIService;
@@ -49,6 +54,6 @@ public class VerificationService {
                                 .build()
                 )
         );
-
     }
+
 }

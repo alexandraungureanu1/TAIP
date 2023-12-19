@@ -21,12 +21,7 @@ class APITemplatesHandler(Resource):
     def __init__(self):
         pass
 
-    @jwt_token_required
-    def get(requester_id, self):
-        _, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
-
+    def get(self):
         try:
             params = {
                 "page": int(request.args.get("page", 0)),
@@ -66,12 +61,8 @@ class APITemplatesHandler(Resource):
             "templates": templates
         }), status=HTTPStatus.OK, mimetype='application/json')
 
-    @jwt_token_required
-    def post(requester_id, self):
+    def post(self):
         xx = time.time()
-        _, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
 
         try:
             template_json = request.get_json()
@@ -209,12 +200,7 @@ class APITemplateHandler(Resource):
     def __init__(self):
         pass
 
-    @jwt_token_required
-    def get(requester_id, self, resource_id):
-        _, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
-
+    def get(self, resource_id):
         try:
             template = Template.query.filter(Template.id == resource_id).first()
         except Exception as e:
@@ -267,12 +253,7 @@ class APITemplateHandler(Resource):
             "template": template_json
         }), status=HTTPStatus.OK, mimetype='application/json')
 
-    @jwt_token_required
     def patch(requester_id, self, resource_id):  ##TODO PATCH TEMPLATE
-        _, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
-
         try:
             template_json = request.get_json()
         except:
@@ -485,12 +466,7 @@ class APITemplateHandler(Resource):
                 pass
         return "Success", 200
 
-    @jwt_token_required
-    def delete(requester_id, self, resource_id):
-        _, error_msg, error_code = check_user_authorization(requester_id, True)
-        if error_msg is not None and error_code is not None:
-            return error_msg, error_code
-
+    def delete(self, resource_id):
         try:
             template = Template.query.filter(Template.id == resource_id).first()
         except:

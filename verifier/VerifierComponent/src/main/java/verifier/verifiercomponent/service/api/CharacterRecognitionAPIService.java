@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import verifier.verifiercomponent.dto.ocr.OcrRequestDTO;
 import verifier.verifiercomponent.dto.ocr.NationalityResponseDTO;
+import verifier.verifiercomponent.dto.ocr.OcrTemplateDTO;
 
 @RestController
 public class CharacterRecognitionAPIService {
@@ -26,4 +27,17 @@ public class CharacterRecognitionAPIService {
                     return Mono.error(new RuntimeException("Custom message", e));
                 });
     }
+
+    public <T> Mono<T> createTemplate(OcrTemplateDTO ocrTemplateDTO, Class<T> classObject) {
+        return webClient.post()
+                .uri("/templates")
+                .bodyValue(ocrTemplateDTO)
+                .retrieve()
+                .bodyToMono(classObject)
+                .onErrorResume(e -> {
+                    return Mono.error(new RuntimeException("Custom message", e));
+                });
+    }
+
+
 }
